@@ -9,9 +9,23 @@ import java.time.LocalDateTime
 @Controller
 class HomeController {
 
+    companion object {
+        val searchResults = listOf("one", "two", "three", "four", "five")
+    }
+
     @GetMapping("/")
     fun home() : String {
         return "index"
+    }
+
+    @GetMapping("/search")
+    fun search(q: String, model: Model) : String {
+        val filtered = searchResults.filter {
+            it.startsWith(q.lowercase())
+        }
+
+        model.addAttribute("results", filtered)
+        return "search :: results"
     }
 
     @PostMapping("/clicked")
